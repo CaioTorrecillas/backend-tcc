@@ -1,0 +1,34 @@
+criar priojeto node:  npm init -y 
+para rodas o back end: node index ou npm start
+	
+		FLUXO 
+router -> controller -> service -> models
+		RMSequilize para mapeamento
+npm i sequelize mysql2
+	
+		Sobre nodemon 
+npm install -g nodemon
+
+npm install --save-dev nodemon
+
+npm config get prefix
+
+set PATH=%PATH%;C:\Users\"Aqui seu usuario"\AppData\Roaming\npm; --nao funcionou pra mim, mas deu certo sem colocar nas vaeriaveis de ambiente
+"scripts": {
+  "start": "nodemon SeuArquivoDeServidor.js"
+}
+
+		banco de dados
+vamos instalar o pacote para usar o mysql
+usaremos o comando: npm install mysql2 
+
+index.js arquivo central do backend (metodo main?)
+			
+		webframeworks
+webframework: -express (base para varios outros webfra...)
+coamndo install: npm install express
+-dotenv(gestao de configuracoes)
+
+
+		nodemodules 
+onde ele baixa as dependencias(bibliotecas)

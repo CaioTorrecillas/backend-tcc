@@ -1,0 +1,102 @@
+/*
+//esta classe é a principal do nosso backend
+
+
+//essa funcao config procura um arquivo chamado env na aplcacao, como .env que tem infos da porta, para ler e subir para a memoria as configs do nosso .env 
+require("dotenv").config();
+
+const req = require("express/lib/request");
+//puxando com ajdua do dotenv nosso banco de dados improvisado em memoria. O require fara com que o array vazio da pasta db.js seja carregado
+const db = require("./db");
+
+//Esse db.async garante que os modelos que estao no sql ficaram iguais aos modelos daqui, criando a tabela que existe aqui e nao existe no banco. 
+//Porem precisamos passar o modelo que queremos (linhas 13)
+
+db.sequelize.sync();
+
+//carregando bibliotecas com essa funcao require. Funcao que inicializa uma nova aplicacao
+const express = require("express");
+
+const app = express();
+
+//Tranformando dados de bites para json
+app.use(express.json());
+//Rotda de cadastro. Usuario manda dados para nos
+app.post("/clientes", async (request, response) => {
+    //quando mandamos dados eles vao em binario, precisamos deseriala-los
+    //criando a variavel customer para acessar os dados do body da request
+    const customer = request.body;
+    await db.saveCustomers(customer) 
+    response.sendStatus(201);
+});
+
+//endpoint para atualizar cliente
+//PATCH atualizamos apenas os dados de uma unidade. PUT é quando atualizamos um objeto inteiro 
+app.patch("/clientes/:id", async (request, response) => {
+    const id = parseInt(request.params.id);
+    //quando mandamos dados eles vao em binario, precisamos deseriala-los
+    //criando a variavel customer para acessar os dados do body da request
+    const customer = request.body;
+    await db.putCustomer(id, customer) 
+    response.sendStatus(200);
+});
+
+
+///DELETEANDO um customer
+app.delete("/clientes/:id", (request, response) => {
+    //buscnado o id. O id ele vem como texto, precisamos de um numeric 
+    const id = parseInt(request.params.id);
+    db.deleteCustomer(id);
+    response.sendStatus(204);
+
+})
+
+
+
+//Funcao para listar clietnes cadastrados
+app.get("/clientes", async (request, response) => {
+    const results = await db.selectCustomers()
+    response.json(results);
+
+})
+
+//find by id passamos o :id(vira um variavel na url) para um valor dinamico  
+app.get("/clientes/:id", async (request, response) => {
+    //buscnado o id. O id ele vem como texto, precisamos de um numeric 
+    const id = parseInt(request.params.id);
+    const result = await db.selectCustomersById(id);
+    response.json(result);
+
+})
+
+//criaremos um endpoint onde o back end espera requisicoes
+//app.get para pegar informacoes
+//app.post para salvvar, postar, estc
+
+//parametros do get(), endereco do endpoint. 
+//Nos parametros da funcao de callback q esta sendo passado como segundo parametro temos: request que sera passado, o response/ retorno 
+app.get("/", (request, response, next) => {
+
+    //response para mandar um objeto
+    response.json({
+        message: "Mensagem de envio",
+    });
+});
+
+
+//usaremos a fncao listen para subir o nosso servidor de backend
+//passamos essa funcao de callback para nos avisar se a aplicacao subiu com sucesso
+app.listen(process.env.PORT, () => {
+
+    console.log("Aplicacao startou");
+
+});
+
+
+
+
+
+
+//SOBRE PORTAS
+//criamos o arquivo .env, como se fosse o properties do spring boot
+*/
