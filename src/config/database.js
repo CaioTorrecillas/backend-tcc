@@ -4,17 +4,23 @@ const mysql = require("mysql2/promise");
 require('dotenv').config();
 //criando conexao com o banco 
 //usaremos o pool de conexao onde abrimos uma conexao onde abrimos e fechamos automaticamente. (Mais profissional)
-const connection = mysql.createPool({
+
+module.exports ={ 
+    dialect: 'mysql',
     host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
-    user: process.env.DATABASE_USER,
     database: process.env.DATABASE_NAME, 
-})
+    define: {
+        timestamp: true,
+        underscored: true
+    }
+ 
+    
+}
 
 
-
-
-module.exports = connection;
+//module.exports = connection;
 
 
 
