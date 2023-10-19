@@ -10,6 +10,11 @@ const jornadaController = require('./controllers/jornadaController');
 
 router.post("/login", loginController.login)
 
+
+router.put("/token/:id", usuarioController.createToken)
+router.get("/token/:id", usuarioController.buscarTokenByID)
+router.get("/notificar/:id", usuarioController.enviarNotificacao)
+
 router.get("/usuarios", usuarioController.getAllUsuarios)
 //esse validar é pra valdar os dados
 //router.post("/usuarios", usuarioController.createUser)

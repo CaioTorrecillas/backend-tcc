@@ -7,11 +7,10 @@ module.exports = {
             const { user_id } = request.params;
             const usuarioUnico = await usuarioModel.findByPk(user_id, {
                 include: {
-                    //Faz esse associations ali no ./models/usuarioModel
                     association: 'jornadas'
                 }
             })
-
+            console.log()
             response.status(200).json({ usuarioUnico });
 
 

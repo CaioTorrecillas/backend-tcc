@@ -30,6 +30,9 @@ class Usuario extends Model {
             telefone: {
                 type: DataTypes.STRING,
             },
+            token:{
+                type: DataTypes.STRING
+            }
           
             
         }, {
