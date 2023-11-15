@@ -1,6 +1,6 @@
 const usuarioModel = require('../models/usuarioModel')
 const { Expo } = require('expo-server-sdk')
-
+const jornadaModel = require('../models/jornadaModel')
 module.exports = {
     async enviarNotificacao(request, response) {
         let expo = new Expo({ accessToken: process.env.EXPO_ACCESS_TOKEN });
@@ -144,13 +144,25 @@ module.exports = {
 
         try {
             const { id } = request.params;
-            const { name, senha, idade, tipo, conta_ativa } = request.body
+            const { name, senha, idade, tipo, telefone } = request.body
 
             const usuarioUnico = await usuarioModel.findOne({ where: { id } })
+            console.log(usuarioUnico.tipo)
             if (!usuarioUnico) {
                 response.status(401).json({ message: "Nenhum usuario encontrado" })
             } else {
-                const usuarioEditado = await usuarioModel.update({ name, senha, idade, tipo, conta_ativa }, { where: { id } });
+                if(usuarioUnico.tipo === "aux" || usuarioUnico.tipo === "Aux" || usuarioUnico.tipo === "AUX"){
+                    console.log("Caindo aqui aux")
+                    await jornadaModel.update({nome_aux: name, telefone_aux: telefone}, {where: {nome_aux: usuarioUnico.name, ativo: 1}});
+
+
+                }else{
+                    console.log("Caindo aqui pcd")
+                    await jornadaModel.update({telefone_pcd: telefone}, {where: {user_id: id}});
+                    console.log(telefone)
+
+                }
+                const usuarioEditado = await usuarioModel.update({ name, senha, idade, tipo, telefone }, { where: { id } });
                 response.status(200).json({ usuarioEditado });
             }
 
